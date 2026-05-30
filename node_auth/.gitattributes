@@ -1,3 +1,10 @@
 node_auth/*.dart linguist-language=Dart
 server/*.js linguist-language=JavaScript
 server/**/*.js linguist-language=JavaScript
+
+node_auth/windows/** linguist-vendored
+node_auth/linux/** linguist-vendored
+node_auth/macos/** linguist-vendored
+node_auth/ios/** linguist-vendored
+node_auth/android/** linguist-vendored
+node_auth/build/** linguist-vendored
