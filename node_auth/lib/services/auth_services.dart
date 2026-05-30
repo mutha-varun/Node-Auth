@@ -102,13 +102,15 @@ class AuthServices {
 
       if(token == null){
         prefs.setString('x-auth-token', '');
+        userProvider.setLoading(false);
+        token = '';
       }
 
       var tokenRes = await http.post(
         Uri.parse('${Constants.uri}/tokenIsValid'),
         headers: <String, String>{
           "Content-Type": "application/json; charset=UTF-8",
-          "x-auth-token": token!
+          "x-auth-token": token
         },
       );
 
@@ -124,8 +126,12 @@ class AuthServices {
         );
         userProvider.setUser(res.body);
       }
+      
+      userProvider.setLoading(false);
 
     }catch(e){
+      var userProvider = Provider.of<UserProvider>(context, listen: false);
+      userProvider.setLoading(false);
       if(context.mounted){
         showSnackBar(context, e.toString());
       }

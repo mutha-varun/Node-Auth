@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const authRouter = require("./routes/auth");
+require("dotenv").config();
 
 const PORT = process.env.PORT || 3000;
 const app = express();
@@ -8,7 +9,7 @@ const app = express();
 app.use(express.json());
 app.use(authRouter); 
 
-const DB = "mongodb+srv://muthavarun07_db_user:stfjqfivfLH00hx1@cluster0.h0qktzp.mongodb.net/?appName=Cluster0"
+const DB = "mongodb+srv://muthavarun07_db_user:"+process.env.MONGODB+"@cluster0.h0qktzp.mongodb.net/?appName=Cluster0"
 
 mongoose.connect(DB).then(
     ()=>{

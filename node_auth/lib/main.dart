@@ -27,17 +27,35 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     final AuthServices authServices = AuthServices();
     super.initState();
-    authServices.getUserData(context);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      authServices.getUserData(context);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context);
+    
+    if(userProvider.isLoading){
+      return MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        ),
+        home: Scaffold(
+          body: Center(
+            child: CircularProgressIndicator(),
+          ),
+        ),
+      );
+    }
+    
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: Provider.of<UserProvider>(context).user.token.isEmpty ? const SignupScreen():const MyHomePage()
+      home: userProvider.user.token.isEmpty ? const SignupScreen():const MyHomePage()
     );
   }
 }
