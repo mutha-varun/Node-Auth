@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:node_auth/custom_textfield.dart';
+import 'package:node_auth/services/auth_services.dart';
 
 class LoginScreen extends StatefulWidget {
 
@@ -12,6 +13,11 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final AuthServices authServices = AuthServices();
+
+  void loginUser(){
+    authServices.signInUser(context: context, email: emailController.text, password: passwordController.text);
+  } 
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           const SizedBox(height: 20,),
           ElevatedButton(
-            onPressed: (){}, 
+            onPressed: loginUser, 
             child: const Text("Login")
           )
         ],

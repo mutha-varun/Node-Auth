@@ -1,12 +1,34 @@
 import 'package:flutter/material.dart';
-import 'package:node_auth/screens/login_screen.dart';
+import 'package:node_auth/providers/user_provider.dart';
+import 'package:node_auth/screens/homescreen.dart';
+import 'package:node_auth/screens/signup_screen.dart';
+import 'package:node_auth/services/auth_services.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create:(_)=> UserProvider())
+    ],
+    child: const MyApp()
+  ));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+
+  @override
+  void initState() {
+    final AuthServices authServices = AuthServices();
+    super.initState();
+    authServices.getUserData(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +37,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const LoginScreen(),
+      home: Provider.of<UserProvider>(context).user.token.isEmpty ? const SignupScreen():const MyHomePage()
     );
   }
 }

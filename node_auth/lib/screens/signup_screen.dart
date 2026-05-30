@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:node_auth/custom_textfield.dart';
+import 'package:node_auth/screens/login_screen.dart';
+import 'package:node_auth/services/auth_services.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -13,6 +15,12 @@ class _SignupScreenState extends State<SignupScreen> {
   TextEditingController name = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
+
+  final AuthServices authService = AuthServices();
+
+  void signUpUser(){
+    authService.signUpUser(context: context, email: email.text, password: password.text, name: name.text);
+  }
 
 
   @override
@@ -28,19 +36,39 @@ class _SignupScreenState extends State<SignupScreen> {
           const SizedBox(height: 30),
           CustomTextfield(
             controller: name,
-            hint: "Enter your name", obscure: false),
+            hint: "Enter your name", 
+            obscure: false
+          ),
           const SizedBox(height: 12,),
           CustomTextfield(
             controller: email,
-            hint: "Enter your email", obscure: false),
+            hint: "Enter your email", 
+            obscure: false
+          ),
           const SizedBox(height: 12,),
           CustomTextfield(
             controller: password,
-            hint: "Enter your password", obscure: true),
+            hint: "Enter your password", 
+            obscure: true
+          ),
           const SizedBox(height: 20,),
-          ElevatedButton(onPressed: () {}, child: const Text("Sign up")),
+          ElevatedButton(
+            onPressed: signUpUser, 
+            child: const Text("Sign up")
+          ),
           const SizedBox(height: 70),
-          TextButton(onPressed: () {}, child: const Text("Login user?")),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(
+                  builder: (context){
+                    return const LoginScreen();
+                  }
+                ), 
+                (route)=>false);
+            }, 
+            child: const Text("Login user?")
+          ),
         ],
       ),
     );
